@@ -10,10 +10,10 @@ public class LevelManager : MonoBehaviour
 	[SerializeField]
 	int rows, columns;
 	[SerializeField]
-	GameObject cellPrefab;
+	Cell cellPrefab;
 
 	Transform t;
-	GameObject[,] grid;
+	Cell[,] grid;
 
 	private void Awake()
 	{
@@ -30,7 +30,7 @@ public class LevelManager : MonoBehaviour
 	{
 		Vector3 cameraPos = grid[rows - 1, columns - 1].transform.position / 2f;
 		float cameraRatio = Camera.main.aspect;
-		Camera.main.transform.position = new Vector3(cameraPos.x, cameraPos.y, -10f);
+		Camera.main.transform.position = new Vector3(cameraPos.x + .5f, cameraPos.y + .5f, -10f);
 		if (cameraPos.x > cameraPos.y * cameraRatio)
 		{
 			Camera.main.orthographicSize = (cameraPos.x + 0.5f + (2 * padding)) / cameraRatio;
@@ -43,13 +43,12 @@ public class LevelManager : MonoBehaviour
 
 	void GenerateGrid()
 	{
-		grid = new GameObject[rows, columns];
+		grid = new Cell[rows, columns];
 		for (int row = 0; row < rows; row++)
 		{
 			for (int col = 0; col < columns; col++)
 			{
-				GameObject cell = Instantiate(cellPrefab, t);
-				cell.transform.position = new Vector2(row * (1 + padding), col * (1 + padding));
+				Cell cell = Instantiate(cellPrefab, new Vector2(col * (1 + padding), row * (1 + padding)), Quaternion.identity, t);
 				cell.name = $"{row}, {col}";
 				grid[row, col] = cell;
 			}

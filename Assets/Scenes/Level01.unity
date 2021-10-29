@@ -235,10 +235,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 980d5581fcf3fbe49b91e8e057f68cfa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  padding: 0.05
-  rows: 21
-  columns: 50
-  cellPrefab: {fileID: 1041366393674926310, guid: b4d3f426a26ff144eaa1322197a7f442, type: 3}
+  padding: 0
+  rows: 20
+  columns: 10
+  cellPrefab: {fileID: -4528666136477996439, guid: b4d3f426a26ff144eaa1322197a7f442, type: 3}
 --- !u!4 &1868403279
 Transform:
   m_ObjectHideFlags: 0

@@ -5,7 +5,7 @@ using UnityEngine;
 public class Cell : MonoBehaviour
 {
 	[SerializeField]
-	Sprite[] sprites;
+	SpriteArray sprites;
 	[SerializeField]
 	SpriteRenderer rend;
 
@@ -52,7 +52,7 @@ public class Cell : MonoBehaviour
 				spriteIndex = 0;
 				break;
 		}
-		rend.sprite = sprites[spriteIndex];
+		rend.sprite = sprites.Sprites[spriteIndex];
 	}
 
 	/// <summary>
