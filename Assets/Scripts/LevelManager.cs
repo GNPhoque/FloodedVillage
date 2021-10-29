@@ -48,7 +48,6 @@ public class LevelManager : MonoBehaviour
 		{
 			for (int col = 0; col < columns; col++)
 			{
-
 				GameObject cell = Instantiate(cellPrefab, t);
 				cell.transform.position = new Vector2(row * (1 + padding), col * (1 + padding));
 				cell.name = $"{row}, {col}";

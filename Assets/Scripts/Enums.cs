@@ -2,15 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-enum CellType
+public enum CellType
 {
 	Empty,
 	Water,
 	Stone,
 	Seeds,
-	Crops,
-	Zombie,
-	Villager
+	Crops
 }
 
 public class Enums
