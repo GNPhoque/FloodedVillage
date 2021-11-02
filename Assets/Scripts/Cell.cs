@@ -28,6 +28,14 @@ public class Cell : MonoBehaviour
 		Type = CellType.Empty;
 	}
 
+	private void OnMouseUpAsButton()
+	{
+		if (Type == CellType.Sand)
+		{
+			Type = CellType.Empty;
+		}
+	}
+
 	void SetSprite()
 	{
 		int spriteIndex;
@@ -39,14 +47,17 @@ public class Cell : MonoBehaviour
 			case CellType.Water:
 				spriteIndex = 1;
 				break;
-			case CellType.Stone:
+			case CellType.Sand:
 				spriteIndex = 2;
 				break;
-			case CellType.Seeds:
+			case CellType.Stone:
 				spriteIndex = 3;
 				break;
-			case CellType.Crops:
+			case CellType.Seeds:
 				spriteIndex = 4;
+				break;
+			case CellType.Crops:
+				spriteIndex = 5;
 				break;
 			default:
 				spriteIndex = 0;

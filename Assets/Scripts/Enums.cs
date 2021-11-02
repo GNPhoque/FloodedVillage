@@ -6,6 +6,7 @@ public enum CellType
 {
 	Empty,
 	Water,
+	Sand,
 	Stone,
 	Seeds,
 	Crops

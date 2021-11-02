@@ -26,6 +26,14 @@ public class LevelManager : MonoBehaviour
 		SetCamera();
 	}
 
+	private void Update()
+	{
+		if (Input.GetKeyDown(KeyCode.Space))
+		{
+			//RunSimulation();
+		}
+	}
+
 	private void SetCamera()
 	{
 		Vector3 cameraPos = grid[rows - 1, columns - 1].transform.position / 2f;
@@ -53,5 +61,28 @@ public class LevelManager : MonoBehaviour
 				grid[row, col] = cell;
 			}
 		}
+	}
+
+	bool IsAnyNeighbourWater(int row, int col)
+	{
+		for (int i = -1; i <= 1; i+=2)
+		{
+			for (int j = -1; j <= 1; j+=2)
+			{
+				if (IsInGrid(row + i, col + j))
+				{
+					if (grid[row + i, col + j].Type == CellType.Water)
+					{
+						return true;
+					}
+				}
+			}
+		}
+		return false; ;
+	}
+
+	bool IsInGrid(int i, int j)
+	{
+		return i >= 0 && i < rows && j >= 0 && j < columns;
 	}
 }
