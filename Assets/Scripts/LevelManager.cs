@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public class LevelManager : MonoBehaviour
@@ -11,6 +12,8 @@ public class LevelManager : MonoBehaviour
 	int rows, columns;
 	[SerializeField]
 	Cell cellPrefab;
+	[SerializeField]
+	Cell[] level;
 
 	Transform t;
 	Cell[,] grid;
@@ -22,15 +25,31 @@ public class LevelManager : MonoBehaviour
 
 	private void Start()
 	{
-		GenerateGrid();
+		//GenerateGrid();
+		Init();
 		SetCamera();
+	}
+
+	private void Init()
+	{
+		//SET ROWS COLS
+		rows = Mathf.FloorToInt(level.Max(x => x.transform.position.x) + 1);
+		columns = Mathf.FloorToInt(level.Max(x => x.transform.position.y) + 1);
+		//SET GRID[,]
+		grid = new Cell[rows, columns];
+		foreach (Cell cell in level)
+		{
+			(int x, int y) position = (Mathf.FloorToInt(cell.transform.position.y), Mathf.FloorToInt(cell.transform.position.x));
+			cell.name = $"{ cell.Type} ({position.x}, {position.y})";
+			grid[position.x, position.y] = cell;
+		}
 	}
 
 	private void Update()
 	{
 		if (Input.GetKeyDown(KeyCode.Space))
 		{
-			//RunSimulation();
+			RunSimulation();
 		}
 	}
 
@@ -63,18 +82,46 @@ public class LevelManager : MonoBehaviour
 		}
 	}
 
+	void RunSimulation()
+	{
+		for (int row = 0; row < rows; row++)
+		{
+			for (int col = 0; col < columns; col++)
+			{
+				if (IsFloodable(row, col))
+				{
+					if(IsAnyNeighbourWater(row, col))
+					{
+						Debug.Log($"{row} {col} has a water neighbour");
+						grid[row, col].FloodCell();
+					}
+				}
+			}
+		}
+		ApplyAllCellsSimulation();
+	}
+
+	private bool IsFloodable(int row, int col)
+	{
+		return grid[row, col].Type == CellType.Floodable;
+	}
+
 	bool IsAnyNeighbourWater(int row, int col)
 	{
-		for (int i = -1; i <= 1; i+=2)
+		for (int i = -1; i <= 1; i ++)
 		{
-			for (int j = -1; j <= 1; j+=2)
+			for (int j = -1; j <= 1; j ++)
 			{
-				if (IsInGrid(row + i, col + j))
+				if (i == 0 ^ j == 0)
 				{
-					if (grid[row + i, col + j].Type == CellType.Water)
+					if (IsInGrid(row + i, col + j))
 					{
-						return true;
-					}
+						if (grid[row + i, col + j].Type == CellType.Water)
+						{
+							Debug.Log($"{row + i} {col + j} is water");
+							return true;
+						}
+					} 
 				}
 			}
 		}
@@ -84,5 +131,16 @@ public class LevelManager : MonoBehaviour
 	bool IsInGrid(int i, int j)
 	{
 		return i >= 0 && i < rows && j >= 0 && j < columns;
+	}
+
+	private void ApplyAllCellsSimulation()
+	{
+		for (int i = 0; i < rows; i++)
+		{
+			for (int j = 0; j < columns; j++)
+			{
+				grid[i, j].ApplySimulation();
+			}
+		}
 	}
 }

@@ -1,15 +1,16 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+using System;
 
+[Flags]
 public enum CellType
 {
-	Empty,
-	Water,
-	Sand,
-	Stone,
-	Seeds,
-	Crops
+	Empty = 1,
+	Water = 2,
+	Sand = 4,
+	Stone = 8,
+	Seeds = 16,
+	Crops = 32,
+
+	Floodable = Empty | Seeds
 }
 
 public class Enums

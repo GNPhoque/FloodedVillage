@@ -8,24 +8,28 @@ public class Cell : MonoBehaviour
 	SpriteArray sprites;
 	[SerializeField]
 	SpriteRenderer rend;
-
+	[SerializeField]
 	private CellType _type;
+
 	private CellType nextType;
 
 	public CellType Type
 	{
 		get { return _type; }
-		set 
+		private set 
 		{ 
 			_type = value;
 			SetSprite();
+			nextType = Type;
 		}
 	}
 
 
 	private void Start()
 	{
-		Type = CellType.Empty;
+		Type = Type;
+		//SetSprite();
+		//Type = CellType.Empty;
 	}
 
 	private void OnMouseUpAsButton()
@@ -82,7 +86,7 @@ public class Cell : MonoBehaviour
 		}
 	}
 
-	public void ApplyNextCell()
+	public void ApplySimulation()
 	{
 		Type = nextType;
 	}
